@@ -54,6 +54,7 @@ import {
     ClassExtension,
     IdExtension,
     StyleExtension,
+    CustomMention,
     StatePath,
 } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
@@ -162,6 +163,10 @@ export default function tiptap({
    customDocument = null,
    nodePlaceholders = [],
    showOnlyCurrentPlaceholder = true,
+   mentionSuggestions = null,
+   mentionSuggestionEndpoint = null,
+   mentionSuggestionMethod = null,
+   mentionSuggestionBody = null,
 }) {
     let editor = null;
 
@@ -201,6 +206,12 @@ export default function tiptap({
                 ClassExtension,
                 IdExtension,
                 StyleExtension,
+                CustomMention(
+                    mentionSuggestions,
+                    mentionSuggestionEndpoint,
+                    mentionSuggestionMethod,
+                    mentionSuggestionBody,
+                ),
                 StatePath.configure({
                     statePath: statePath
                 }),

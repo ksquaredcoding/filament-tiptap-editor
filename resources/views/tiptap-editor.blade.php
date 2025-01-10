@@ -11,6 +11,10 @@
     $customDocument = $getCustomDocument();
     $nodePlaceholders = $getNodePlaceholders();
     $showOnlyCurrentPlaceholder = $getShowOnlyCurrentPlaceholder();
+    $mentionSuggestions = $getMentionSuggestions();
+    $mentionSuggestionEndpoint = $getMentionSuggestionEndpoint();
+    $mentionSuggestionMethod = $getMentionSuggestionMethod();
+    $mentionSuggestionBody = $getMentionSuggestionBody();
 @endphp
 
 <x-dynamic-component
@@ -48,7 +52,11 @@
                         mergeTags: @js($mergeTags),
                         customDocument: @js($customDocument),
                         nodePlaceholders: @js($nodePlaceholders),
-                        showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder)
+                        showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder),
+                        mentionSuggestions: @js($mentionSuggestions),
+                        mentionSuggestionEndpoint: @js($mentionSuggestionEndpoint),
+                        mentionSuggestionMethod: @js($mentionSuggestionMethod),
+                        mentionSuggestionBody: @js($mentionSuggestionBody)
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"
