@@ -210,7 +210,15 @@ export default function tiptap({
                 ClassExtension,
                 IdExtension,
                 StyleExtension,
-                CustomMention(
+                StatePath.configure({
+                    statePath: statePath
+                }),
+                TiptapBlock,
+            ];
+
+            if(mentionItems || mentionApiEndpoint) {
+                extensions.push(
+                  CustomMention(
                     mentionItems,
                     mentionApiEndpoint,
                     mentionApiBody,
@@ -219,12 +227,9 @@ export default function tiptap({
                     suggestAfterTyping,
                     noSuggestionsFoundMessage,
                     suggestionsPlaceholder,
-                ),
-                StatePath.configure({
-                    statePath: statePath
-                }),
-                TiptapBlock,
-            ];
+                  ),
+                );
+            }
 
             if ((placeholder || nodePlaceholders) && (!disabled)) {
                 extensions.push(
