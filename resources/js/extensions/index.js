@@ -23,4 +23,5 @@ export { MergeTag } from "./MergeTag.js";
 export { ClassExtension } from "./ClassExtension.js";
 export { IdExtension } from "./IdExtension.js";
 export { StyleExtension } from "./StyleExtension.js";
+export { CustomMention } from "./Mention/Mention.js";
 export { StatePath } from './StatePath.js';
