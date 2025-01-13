@@ -542,6 +542,112 @@ TiptapEditor::make('content')
     ->showOnlyCurrentPlaceholder(false)
 ```
 
+### Placeholders
+
+You can easily set a placeholder, the Filament way:
+
+```php
+TiptapEditor::make('content')
+    ->placeholder('Write something...')
+```
+
+You can define specific placeholders for each node type using the `->nodePlaceholders()` method. This method accepts an associative array, where the keys are the node type names, and the values are the corresponding placeholder texts.
+
+```php
+TiptapEditor::make('content')
+    ->nodePlaceholders([
+        'paragraph' => 'Start writing your paragraph...',
+        'heading' => 'Insert a heading...',
+    ])
+```
+
+The `->showOnlyCurrentPlaceholder()` method allows you to control whether placeholders are shown for all nodes simultaneously or only for the currently active node.
+
+```php
+TiptapEditor::make('content')
+    // All nodes will immediately be displayed, instead of only the selected node
+    ->showOnlyCurrentPlaceholder(false)
+```
+
+### Mentions
+
+The [Tiptap Mention extension]('https://tiptap.dev/docs/editor/extensions/nodes/mention') has been integrated into this package. There are two ways to use this: you might want to supply a
+hardcoded list of mention suggestions or you might want to feed from an API. 
+
+#### Prefilled Suggestions
+
+You can pass an array of suggestions using `->mentionItems()`. The most convenient way is to use instances of the `MentionItem` object, which accepts several parameters:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionItems([
+        // The simplest mention item: a label
+        new MentionItem(label: 'Apple'),
+        
+        // Optionally add an id, which will be included in the attributes
+        new MentionItem(label: 'Banana', id: 2),
+        
+         // Add a href to make the mention clickable in the final HTML output
+        new MentionItem(label: 'Strawberry', href: 'https://filamentphp.com'),
+        
+        // Include additional data to be stored in the final JSON output
+        new MentionItem(label: 'Strawberry', data: ['type' => 'fruit_mentions']),
+    ])
+```
+
+Alternatively, you can use arrays instead of `MentionItem` objects:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionItems([
+        ['label' => 'Apple'],
+        ['label' => 'Banana'],
+        ['label' => 'Strawberry'],
+    ])
+```
+
+#### Fetching Suggestions from an API
+To retrieve mention suggestions from an API, you can specify an endpoint like this:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionItemsApi(endpoint: route('user-suggestions'))
+```
+
+You may also supply additional request body and header parameters if needed.
+
+Next up, you should create a `POST` route which returns `MentionItem` instances. For example:
+
+```php
+public function getUserSuggestions(Request $request): JsonResponse
+{
+    $query = request()->input('query');
+    return response()->json(
+        User::search($query)->get()->map(fn ($user) => new MentionItem(
+            label: $user->name
+        ))
+    );
+}
+```
+
+#### Additional Mention Features
+You can customize a few other aspects of the mention feature:
+
+```php
+TiptapEditor::make(name: 'content')
+    // Customize the "No results found" message
+    ->noSuggestionsFoundMessage("No users found")
+    
+    // Set a custom placeholder message
+    ->suggestionsPlaceholder("Search for users...")
+    
+    // Control when suggestions appear (immediately after typing "@" or after typing some characters, e.g., @j)
+    ->suggestAfterTyping()
+```
+
+#### Prefilled suggestions
+
+
 ## Custom Extensions
 
 You can add your own extensions to the editor by creating the necessary files and adding them to the config file extensions array.
