@@ -644,9 +644,6 @@ TiptapEditor::make(name: 'content')
     ->suggestAfterTyping()
 ```
 
-#### Prefilled suggestions
-
-
 ## Custom Extensions
 
 You can add your own extensions to the editor by creating the necessary files and adding them to the config file extensions array.
