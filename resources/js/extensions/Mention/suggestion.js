@@ -2,54 +2,88 @@ import tippy from 'tippy.js';
 import getContent from './get-content.js';
 
 let _query = null;
-export default (mentionItems = [], mentionApiEndpoint = null, mentionApiBody = null, mentionApiHeaders = {}) => ({
+let debounceTimeout = null;
+let isLoading = false;
+
+export default (
+  mentionItems = [],
+  mentionApiEndpoint = null,
+  mentionApiBody = null,
+  mentionApiHeaders = {},
+  mentionApiDebounce = 250,
+  suggestAfterTyping = false,
+  noSuggestionsFoundMessage = '',
+  suggestionsPlaceholder = '',
+) => ({
+    char: '@',
     items: async ({ query }) => {
         _query = query;
+        window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }));
 
-        console.log(1);
-        if(mentionApiEndpoint) {
-            console.log(2);
-            if(!query) return [];
-            const response = await fetch(mentionApiEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...mentionApiHeaders,
-                },
-                body: JSON.stringify({
-                    query: query,
-                    ...mentionApiBody,
-                })
+        if (suggestAfterTyping && !query) return [];
+
+        // Dispatch an event to indicate loading started
+        if (mentionApiEndpoint) {
+            if (!isLoading) {
+                isLoading = true;
+                window.dispatchEvent(new CustomEvent('mention-api-loading-start'));
+            }
+
+            // Implement debounce
+            return new Promise((resolve) => {
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(async () => {
+                    try {
+                        const response = await fetch(mentionApiEndpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                ...mentionApiHeaders,
+                            },
+                            body: JSON.stringify({
+                                query: query,
+                                ...mentionApiBody,
+                            }),
+                        });
+                        const users = await response.json();
+
+                        // Loading complete
+                        isLoading = false;
+                        window.dispatchEvent(new CustomEvent('mention-api-loading-end'));
+
+                        resolve(users.slice(0, 5));
+                    } catch (error) {
+                        isLoading = false;
+                        window.dispatchEvent(new CustomEvent('mention-api-loading-end'));
+                        resolve([]);
+                    }
+                }, mentionApiDebounce);
             });
-            const users = await response.json();
-            return users.slice(0, 5);
         } else {
-            console.log(3);
             return mentionItems
-              .filter(item => item['label'].toLowerCase().startsWith(query.toLowerCase()))
-              .slice(0, 5)
+              .filter((item) => item['label'].toLowerCase().startsWith(query.toLowerCase()))
+              .slice(0, 5);
         }
     },
-    // Override command property
     command: ({ editor, range, props }) => {
         let deleteFrom = range.to + 1;
         let deleteTo = _query.length + deleteFrom;
 
         editor
-            .chain()
-            .focus()
-            .insertContentAt(range, [
-                {
-                    type: 'mention',
-                    attrs: props,
-                },
-                {
-                    type: 'text',
-                    text: ' ',
-                },
-            ])
-            .deleteRange({ from: deleteFrom, to: deleteTo })
-            .run();
+          .chain()
+          .focus()
+          .insertContentAt(range, [
+              {
+                  type: 'mention',
+                  attrs: props,
+              },
+              {
+                  type: 'text',
+                  text: ' ',
+              },
+          ])
+          .deleteRange({ from: deleteFrom, to: deleteTo })
+          .run();
 
         window.getSelection()?.collapseToEnd();
     },
@@ -59,7 +93,15 @@ export default (mentionItems = [], mentionApiEndpoint = null, mentionApiBody = n
 
         return {
             onStart: (props) => {
-                component = getContent(props);
+                console.log("howdy");
+                console.log(suggestAfterTyping);
+                component = getContent(
+                    props,
+                    noSuggestionsFoundMessage,
+                    suggestionsPlaceholder,
+                    _query.length > 0,
+                    suggestAfterTyping
+                );
                 if (!props.clientRect) {
                     return;
                 }

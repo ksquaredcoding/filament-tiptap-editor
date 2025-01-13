@@ -167,6 +167,10 @@ export default function tiptap({
    mentionApiEndpoint = null,
    mentionApiBody = null,
    mentionApiHeaders = null,
+   suggestAfterTyping = false,
+   noSuggestionsFoundMessage = '',
+   suggestionsPlaceholder = '',
+   mentionApiDebounce = 250,
 }) {
     let editor = null;
 
@@ -211,6 +215,10 @@ export default function tiptap({
                     mentionApiEndpoint,
                     mentionApiBody,
                     mentionApiHeaders,
+                    mentionApiDebounce,
+                    suggestAfterTyping,
+                    noSuggestionsFoundMessage,
+                    suggestionsPlaceholder,
                 ),
                 StatePath.configure({
                     statePath: statePath
