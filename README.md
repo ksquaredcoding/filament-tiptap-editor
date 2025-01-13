@@ -618,7 +618,7 @@ You may also supply additional request body and header parameters if needed.
 Next up, you should create a `POST` route which returns the suggestions. For example:
 
 ```php
-public function getUserSuggestions(Request $request): JsonResponse
+public function getUserSuggestions(): JsonResponse
 {
     $query = request()->input('query');
     return response()->json(
