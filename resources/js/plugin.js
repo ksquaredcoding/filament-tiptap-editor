@@ -54,6 +54,7 @@ import {
     ClassExtension,
     IdExtension,
     StyleExtension,
+    CustomMention,
     StatePath,
 } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
@@ -162,6 +163,14 @@ export default function tiptap({
    customDocument = null,
    nodePlaceholders = [],
    showOnlyCurrentPlaceholder = true,
+   mentionItems = null,
+   mentionApiEndpoint = null,
+   mentionApiBody = null,
+   mentionApiHeaders = null,
+   suggestAfterTyping = false,
+   noSuggestionsFoundMessage = '',
+   suggestionsPlaceholder = '',
+   mentionApiDebounce = 250,
 }) {
     let editor = null;
 
@@ -206,6 +215,21 @@ export default function tiptap({
                 }),
                 TiptapBlock,
             ];
+
+            if(mentionItems || mentionApiEndpoint) {
+                extensions.push(
+                  CustomMention(
+                    mentionItems,
+                    mentionApiEndpoint,
+                    mentionApiBody,
+                    mentionApiHeaders,
+                    mentionApiDebounce,
+                    suggestAfterTyping,
+                    noSuggestionsFoundMessage,
+                    suggestionsPlaceholder,
+                  ),
+                );
+            }
 
             if ((placeholder || nodePlaceholders) && (!disabled)) {
                 extensions.push(
