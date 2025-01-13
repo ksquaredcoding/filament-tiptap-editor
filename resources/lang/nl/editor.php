@@ -122,4 +122,8 @@ return [
         'vimeo' => 'Vimeo-video invoegen',
         'oembed' => 'Video invoegen',
     ],
+    'mention' => [
+        'no_suggestions_found' => 'Geen resultaten',
+        'suggestions_placeholder' => 'Start met typen...',
+    ],
 ];
