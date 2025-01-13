@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor\Concerns;
 
 use Closure;
+use FilamentTiptapEditor\Data\MentionData;
 
 trait HasMentions
 {
@@ -10,9 +11,9 @@ trait HasMentions
 
     protected string | Closure | null $mentionSuggestionEndpoint = null;
 
-    protected string | null $mentionSuggestionEndpointMethod = null;
+    protected ?string $mentionSuggestionEndpointMethod = null;
 
-    protected array | null $mentionSuggestionEndpointBody = null;
+    protected ?array $mentionSuggestionEndpointBody = null;
 
     public function mentionSuggestions(array | Closure | null $suggestions): static
     {
@@ -24,11 +25,12 @@ trait HasMentions
     public function getMentionSuggestions(): ?array
     {
         $suggestions = $this->evaluate($this->mentionSuggestions);
-        if(is_null($suggestions)) {
+        if (is_null($suggestions)) {
             return null;
         }
+
         return collect($suggestions)
-            ->map(fn($suggestion) => $suggestion->toArray())
+            ->map(fn ($suggestion) => $suggestions instanceof MentionData ? $suggestion->toArray() : $suggestion)
             ->toArray();
     }
 
@@ -57,5 +59,4 @@ trait HasMentions
     {
         return $this->mentionSuggestionEndpointBody;
     }
-
 }
