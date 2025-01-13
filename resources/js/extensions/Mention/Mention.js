@@ -1,12 +1,13 @@
 import suggestion from './suggestion.js'
 import { Mention } from '@tiptap/extension-mention'
 
-export const CustomMention = (suggestionList, apiEndpoint, apiMethod, apiBody) => {
+
+export const CustomMention = (mentionItems, mentionApiEndpoint, mentionApiBody, mentionApiHeaders) => {
   return Mention.extend({
     addOptions() {
       return {
         ...this.parent?.(),
-        suggestion: suggestion(suggestionList, apiEndpoint, apiMethod, apiBody),
+        suggestion: suggestion(mentionItems, mentionApiEndpoint, mentionApiBody, mentionApiHeaders),
         HTMLAttributes: {
           class: 'mention',
         },

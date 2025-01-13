@@ -163,10 +163,10 @@ export default function tiptap({
    customDocument = null,
    nodePlaceholders = [],
    showOnlyCurrentPlaceholder = true,
-   mentionSuggestions = null,
-   mentionSuggestionEndpoint = null,
-   mentionSuggestionMethod = null,
-   mentionSuggestionBody = null,
+   mentionItems = null,
+   mentionApiEndpoint = null,
+   mentionApiBody = null,
+   mentionApiHeaders = null,
 }) {
     let editor = null;
 
@@ -207,10 +207,10 @@ export default function tiptap({
                 IdExtension,
                 StyleExtension,
                 CustomMention(
-                    mentionSuggestions,
-                    mentionSuggestionEndpoint,
-                    mentionSuggestionMethod,
-                    mentionSuggestionBody,
+                    mentionItems,
+                    mentionApiEndpoint,
+                    mentionApiBody,
+                    mentionApiHeaders,
                 ),
                 StatePath.configure({
                     statePath: statePath

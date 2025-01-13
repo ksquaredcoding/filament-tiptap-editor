@@ -2,17 +2,30 @@ import tippy from 'tippy.js';
 import getContent from './get-content.js';
 
 let _query = null;
-export default (suggestionList = [], apiEndpoint = null, apiMethod = null, apiBody = null) => ({
+export default (mentionItems = [], mentionApiEndpoint = null, mentionApiBody = null, mentionApiHeaders = {}) => ({
     items: async ({ query }) => {
         _query = query;
 
-        if(apiEndpoint) {
+        console.log(1);
+        if(mentionApiEndpoint) {
+            console.log(2);
             if(!query) return [];
-            const response = await fetch(`${apiEndpoint}/${query}`);
+            const response = await fetch(mentionApiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...mentionApiHeaders,
+                },
+                body: JSON.stringify({
+                    query: query,
+                    ...mentionApiBody,
+                })
+            });
             const users = await response.json();
             return users.slice(0, 5);
         } else {
-            return suggestionList
+            console.log(3);
+            return mentionItems
               .filter(item => item['label'].toLowerCase().startsWith(query.toLowerCase()))
               .slice(0, 5)
         }

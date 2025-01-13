@@ -11,10 +11,12 @@
     $customDocument = $getCustomDocument();
     $nodePlaceholders = $getNodePlaceholders();
     $showOnlyCurrentPlaceholder = $getShowOnlyCurrentPlaceholder();
-    $mentionSuggestions = $getMentionSuggestions();
-    $mentionSuggestionEndpoint = $getMentionSuggestionEndpoint();
-    $mentionSuggestionMethod = $getMentionSuggestionMethod();
-    $mentionSuggestionBody = $getMentionSuggestionBody();
+    // Mentions
+    $mentionItems = $getMentionItems();
+    $mentionApiEndpoint = $getMentionApiEndpoint();
+    $mentionApiBody = $getMentionApiBody();
+    $mentionApiHeaders = $getMentionApiHeaders();
+
 @endphp
 
 <x-dynamic-component
@@ -53,10 +55,10 @@
                         customDocument: @js($customDocument),
                         nodePlaceholders: @js($nodePlaceholders),
                         showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder),
-                        mentionSuggestions: @js($mentionSuggestions),
-                        mentionSuggestionEndpoint: @js($mentionSuggestionEndpoint),
-                        mentionSuggestionMethod: @js($mentionSuggestionMethod),
-                        mentionSuggestionBody: @js($mentionSuggestionBody)
+                        mentionItems: @js($mentionItems),
+                        mentionApiEndpoint: @js($mentionApiEndpoint),
+                        mentionApiBody: @js($mentionApiBody),
+                        mentionApiHeaders: @js($mentionApiHeaders)
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"
