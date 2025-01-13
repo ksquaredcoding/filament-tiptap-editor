@@ -10,15 +10,6 @@ class Mention extends Node
 {
     public static $name = 'mention';
 
-    public function addOptions(): array
-    {
-        return [
-            'suggestion' => [
-                'char' => '@',
-            ],
-        ];
-    }
-
     public function addAttributes(): array
     {
         return [
@@ -47,6 +38,15 @@ class Mention extends Node
 
     public function renderHTML($node, $HTMLAttributes = []): array
     {
+        if (property_exists($node->attrs, 'href')) {
+            return [
+                'a',
+                [
+                    'href' => $node->attrs->href,
+                ],
+            ];
+        }
+
         return [
             'span',
             [
