@@ -20,6 +20,7 @@ class MentionData
         $this->label = $label;
         $this->id = $id;
         $this->href = $href;
+        $this->data = $data;
     }
 
     /**
