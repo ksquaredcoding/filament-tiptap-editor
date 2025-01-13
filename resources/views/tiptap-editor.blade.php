@@ -16,7 +16,10 @@
     $mentionApiEndpoint = $getMentionApiEndpoint();
     $mentionApiBody = $getMentionApiBody();
     $mentionApiHeaders = $getMentionApiHeaders();
-
+    $suggestAfterTyping = $getSuggestAfterTyping();
+    $noSuggestionsFoundMessage = $getNoSuggestionsFoundMessage();
+    $suggestionsPlaceholder = $getSuggestionsPlaceholder();
+    $mentionApiDebounce = $getMentionApiDebounce();
 @endphp
 
 <x-dynamic-component
@@ -58,7 +61,11 @@
                         mentionItems: @js($mentionItems),
                         mentionApiEndpoint: @js($mentionApiEndpoint),
                         mentionApiBody: @js($mentionApiBody),
-                        mentionApiHeaders: @js($mentionApiHeaders)
+                        mentionApiHeaders: @js($mentionApiHeaders),
+                        suggestAfterTyping: @js($suggestAfterTyping),
+                        noSuggestionsFoundMessage: @js($noSuggestionsFoundMessage),
+                        suggestionsPlaceholder: @js($suggestionsPlaceholder),
+                        mentionApiDebounce: @js($mentionApiDebounce)
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"
