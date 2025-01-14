@@ -573,7 +573,7 @@ TiptapEditor::make('content')
 
 The [Tiptap Mention extension](https://tiptap.dev/docs/editor/extensions/nodes/mention) has been integrated into this package, allowing you to provide mention suggestions in two ways: through a prefilled list or via an API.
 
-#### Prefilled Suggestions
+#### Static Suggestions
 
 You can pass an array of suggestions using `->mentionItems()`. The most convenient way is to use instances of the `MentionItem` object, which accepts several parameters:
 
@@ -605,28 +605,24 @@ TiptapEditor::make(name: 'content')
     ])
 ```
 
-#### Fetching Suggestions from an API
-To retrieve mention suggestions from an API, you can specify an endpoint like this:
+#### Dynamic Suggestions
+In many scenarios, you may want to load mentionable items dynamically, such as through an API. To enable this functionality, start by adding the following trait to your Livewire component:
+
+```php
+use HasFormMentions;
+```
+
+Next, you can provide dynamic suggestions using the `getMentionItemsUsing()` method. Here's an example:
 
 ```php
 TiptapEditor::make(name: 'content')
-    ->mentionItemsApi(endpoint: route('user-suggestions'))
-```
-
-You may also supply additional request body and header parameters if needed.
-
-Next up, you should create a `POST` route which returns the suggestions. For example:
-
-```php
-public function getUserSuggestions(): JsonResponse
-{
-    $query = request()->input('query');
-    return response()->json(
-        User::search($query)->get()->map(fn ($user) => new MentionItem(
+    ->getMentionItemsUsing(function (string $query) {
+        // Get suggestions based of the $query
+        return User::search($query)->get()->map(fn ($user) => new MentionItem(
+            id: $user->id,
             label: $user->name
-        ))
-    );
-}
+        ))->take(5)->toArray();
+    })
 ```
 
 #### Additional Mention Features
