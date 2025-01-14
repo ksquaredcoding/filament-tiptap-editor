@@ -58,7 +58,9 @@ export const CustomMention = Mention.extend({
         char: '@',
         items: async ({ query }) => {
           _query = query
+
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
+
           if (this.options.suggestAfterTyping && !query) return []
 
           if(this.options.getMentionItemsUsingEnabled) {

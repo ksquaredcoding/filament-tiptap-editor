@@ -58,9 +58,16 @@ export default (props, noSuggestionsFoundMessage, suggestionsPlaceholder, query,
     }));
     return `
   <div class="mention-dropdown" x-data=suggestions  x-bind="rootEvents">
-  <template x-for="(item, index) in items">
-  <p :class="{'selected': selectedIndex === index}" @click="selectItem(index)" x-text="item['label']" x-show="!loading"></p>
-  </template>
+  
+   <template x-for="(item, index) in items" :key="index">
+        <button
+            x-text="item['label']"
+            x-on:click="selectItem(index)"
+            :class="{ 'bg-primary-500': index === selectedIndex }"
+            class="block w-full text-left rounded px-2 py-1 hover:bg-white/20"
+        ></button>
+    </template>
+  
 <!--  No results found -->
   <template x-if="! items.length && !loading && (query.length || !suggestAfterTyping)">
       <p x-text="noSuggestionsFoundMessage"></p>

@@ -696,3 +696,7 @@
 span[data-type="mergeTag"] {
     @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 mx-1 rounded;
 }
+
+.tiptap-editor .mention  {
+    @apply bg-primary-600 bg-opacity-10 text-primary-600 px-1 py-0.5 rounded-md box-decoration-clone;
+}
