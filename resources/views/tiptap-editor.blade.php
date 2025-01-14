@@ -65,7 +65,11 @@
                         suggestAfterTyping: @js($suggestAfterTyping),
                         noSuggestionsFoundMessage: @js($noSuggestionsFoundMessage),
                         suggestionsPlaceholder: @js($suggestionsPlaceholder),
-                        mentionApiDebounce: @js($mentionApiDebounce)
+                        mentionApiDebounce: @js($mentionApiDebounce),
+                        livewireId: @js($this->getId()),
+                        getSearchResultsUsing: async (search) => {
+                          return await $wire.getMentionsResults(@js($statePath), search)
+                        },
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"

@@ -171,6 +171,8 @@ export default function tiptap({
    noSuggestionsFoundMessage = '',
    suggestionsPlaceholder = '',
    mentionApiDebounce = 250,
+   livewireId,
+   getSearchResultsUsing,
 }) {
     let editor = null;
 
@@ -216,9 +218,9 @@ export default function tiptap({
                 TiptapBlock,
             ];
 
+            // TODO: Only add when mentionItems are set or getresultsusing...
             if(mentionItems || mentionApiEndpoint) {
-                extensions.push(
-                  CustomMention(
+                extensions.push(CustomMention.configure({
                     mentionItems,
                     mentionApiEndpoint,
                     mentionApiBody,
@@ -227,8 +229,9 @@ export default function tiptap({
                     suggestAfterTyping,
                     noSuggestionsFoundMessage,
                     suggestionsPlaceholder,
-                  ),
-                );
+                    livewireId,
+                    getSearchResultsUsing,
+                }))
             }
 
             if ((placeholder || nodePlaceholders) && (!disabled)) {

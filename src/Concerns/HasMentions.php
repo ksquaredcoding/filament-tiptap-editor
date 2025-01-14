@@ -4,6 +4,7 @@ namespace FilamentTiptapEditor\Concerns;
 
 use Closure;
 use FilamentTiptapEditor\Data\MentionItem;
+use Illuminate\Contracts\Support\Arrayable;
 
 trait HasMentions
 {
@@ -24,6 +25,8 @@ trait HasMentions
     protected string | Closure | null $noSuggestionsFoundMessage = null;
 
     protected string | Closure | null $suggestionsPlaceholder = null;
+
+    protected ?Closure $getMentionResultsUsing = null;
 
     /**
      * Set mention suggestions.
@@ -137,5 +140,29 @@ trait HasMentions
     public function getSuggestionsPlaceholder(): string
     {
         return $this->evaluate($this->suggestionsPlaceholder) ?? trans('filament-tiptap-editor::editor.mentions.suggestions_placeholder');
+    }
+
+    public function getMentionResultsUsing(?Closure $callback): static
+    {
+        $this->getMentionResultsUsing = $callback;
+
+        return $this;
+    }
+
+    public function getSearchResults(string $search): array
+    {
+        if (! $this->getMentionResultsUsing) {
+            return [];
+        }
+
+        $results = $this->evaluate($this->getMentionResultsUsing, [
+            'query' => $search,
+        ]);
+
+        if ($results instanceof Arrayable) {
+            $results = $results->toArray();
+        }
+
+        return $results;
     }
 }
