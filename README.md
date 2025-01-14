@@ -571,7 +571,7 @@ TiptapEditor::make('content')
 
 ### Mentions
 
-The [Tiptap Mention extension](https://tiptap.dev/docs/editor/extensions/nodes/mention) has been integrated into this package, allowing you to provide mention suggestions in two ways: through a prefilled list or via an API.
+The [Tiptap Mention extension](https://tiptap.dev/docs/editor/extensions/nodes/mention) has been integrated into this package.
 
 #### Static Suggestions
 
