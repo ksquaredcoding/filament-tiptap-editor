@@ -58,16 +58,16 @@ export const CustomMention = Mention.extend({
         char: '@',
         items: async ({ query }) => {
           _query = query
-          console.log('query: ' + query)
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
           if (this.options.suggestAfterTyping && !query) return []
 
-          // TODO: accept hardcoded and callback
-          // return this.options.mentionItems
-          //   .filter((item) => item['label'].toLowerCase().startsWith(query.toLowerCase()))
-          //   .slice(0, 5);
+          if(this.options.getMentionItemsUsingEnabled) {
+            return await this.options.getSearchResultsUsing(_query)
+          }
 
-          return await this.options.getSearchResultsUsing(_query)
+          return this.options.mentionItems
+            .filter((item) => item['label'].toLowerCase().startsWith(query.toLowerCase()))
+            .slice(0, 5);
         },
         command: ({ editor, range, props }) => {
           let deleteFrom = range.to + 1
@@ -97,8 +97,6 @@ export const CustomMention = Mention.extend({
 
           return {
             onStart: (props) => {
-              console.log('howdy')
-              console.log(this.options.suggestAfterTyping)
               component = getContent(
                 props,
                 this.options.noSuggestionsFoundMessage,

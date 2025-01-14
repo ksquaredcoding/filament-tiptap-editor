@@ -10,23 +10,13 @@ trait HasMentions
 {
     protected array | Closure | null $mentionItems = null;
 
-    protected string | Closure | null $mentionApiEndpoint = null;
-
-    protected array $mentionApiBody = [];
-
-    protected array $mentionApiHeaders = [
-        'Content-Type' => 'application/json',
-    ];
-
-    protected int $mentionApiDebounce = 250;
-
     protected bool | Closure | null $suggestAfterTyping = false;
 
     protected string | Closure | null $noSuggestionsFoundMessage = null;
 
     protected string | Closure | null $suggestionsPlaceholder = null;
 
-    protected ?Closure $getMentionResultsUsing = null;
+    protected ?Closure $getMentionItemsUsing = null;
 
     /**
      * Set mention suggestions.
@@ -50,51 +40,6 @@ trait HasMentions
         return collect($items)
             ->map(fn ($item) => $item instanceof MentionItem ? $item->toArray() : $item)
             ->toArray();
-    }
-
-    /**
-     * Retrieve mention suggestions through an API endpoint
-     *
-     * @param  string|Closure|null  $endpoint  The API endpoint
-     * @param  array|null  $body  Optional body data for the API request. Will always contain a query param.
-     * @param  array|null  $headers  Optional headers for the API request. Is application/json by default.
-     */
-    public function mentionItemsApi(string | Closure | null $endpoint, ?array $body = null, ?array $headers = null, int $debounce = 250): static
-    {
-        $this->mentionApiEndpoint = $endpoint;
-
-        if ($body) {
-            $this->mentionApiBody = $body;
-        }
-
-        $this->mentionApiHeaders = $headers ?? [
-            'Content-Type' => 'application/json',
-            'X-CSRF-TOKEN' => csrf_token(),
-        ];
-
-        $this->mentionApiDebounce = $debounce;
-
-        return $this;
-    }
-
-    public function getMentionApiEndpoint(): ?string
-    {
-        return $this->evaluate($this->mentionApiEndpoint);
-    }
-
-    public function getMentionApiBody(): array
-    {
-        return $this->mentionApiBody;
-    }
-
-    public function getMentionApiHeaders(): array
-    {
-        return $this->mentionApiHeaders;
-    }
-
-    public function getMentionApiDebounce(): int
-    {
-        return $this->mentionApiDebounce;
     }
 
     /**
@@ -142,20 +87,25 @@ trait HasMentions
         return $this->evaluate($this->suggestionsPlaceholder) ?? trans('filament-tiptap-editor::editor.mentions.suggestions_placeholder');
     }
 
-    public function getMentionResultsUsing(?Closure $callback): static
+    public function getMentionItemsUsing(?Closure $callback): static
     {
-        $this->getMentionResultsUsing = $callback;
+        $this->getMentionItemsUsing = $callback;
 
         return $this;
     }
 
+    public function getMentionItemsUsingEnabled(): bool
+    {
+        return ! is_null($this->getMentionItemsUsing);
+    }
+
     public function getSearchResults(string $search): array
     {
-        if (! $this->getMentionResultsUsing) {
+        if (! $this->getMentionItemsUsing) {
             return [];
         }
 
-        $results = $this->evaluate($this->getMentionResultsUsing, [
+        $results = $this->evaluate($this->getMentionItemsUsing, [
             'query' => $search,
         ]);
 

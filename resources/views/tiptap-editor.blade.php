@@ -13,13 +13,10 @@
     $showOnlyCurrentPlaceholder = $getShowOnlyCurrentPlaceholder();
     // Mentions
     $mentionItems = $getMentionItems();
-    $mentionApiEndpoint = $getMentionApiEndpoint();
-    $mentionApiBody = $getMentionApiBody();
-    $mentionApiHeaders = $getMentionApiHeaders();
     $suggestAfterTyping = $getSuggestAfterTyping();
     $noSuggestionsFoundMessage = $getNoSuggestionsFoundMessage();
     $suggestionsPlaceholder = $getSuggestionsPlaceholder();
-    $mentionApiDebounce = $getMentionApiDebounce();
+    $getMentionItemsUsingEnabled = $getMentionItemsUsingEnabled();
 @endphp
 
 <x-dynamic-component
@@ -59,16 +56,13 @@
                         nodePlaceholders: @js($nodePlaceholders),
                         showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder),
                         mentionItems: @js($mentionItems),
-                        mentionApiEndpoint: @js($mentionApiEndpoint),
-                        mentionApiBody: @js($mentionApiBody),
-                        mentionApiHeaders: @js($mentionApiHeaders),
                         suggestAfterTyping: @js($suggestAfterTyping),
                         noSuggestionsFoundMessage: @js($noSuggestionsFoundMessage),
                         suggestionsPlaceholder: @js($suggestionsPlaceholder),
-                        mentionApiDebounce: @js($mentionApiDebounce),
                         livewireId: @js($this->getId()),
+                        getMentionItemsUsingEnabled: @js($getMentionItemsUsingEnabled),
                         getSearchResultsUsing: async (search) => {
-                          return await $wire.getMentionsResults(@js($statePath), search)
+                          return await $wire.getMentionsItems(@js($statePath), search)
                         },
                     })"
                     x-init="$nextTick(() => { init() })"

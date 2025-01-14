@@ -16,7 +16,7 @@ trait HasFormMentions
     use InteractsWithForms;
 
     #[Renderless]
-    public function getMentionsResults(string $statePath, string $search): array
+    public function getMentionsItems(string $statePath, string $search): array
     {
         foreach ($this->getCachedForms() as $form) {
             if ($results = $this->getFilamentTipTapMentionResults($form, $statePath, $search)) {

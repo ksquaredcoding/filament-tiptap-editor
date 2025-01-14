@@ -164,14 +164,11 @@ export default function tiptap({
    nodePlaceholders = [],
    showOnlyCurrentPlaceholder = true,
    mentionItems = null,
-   mentionApiEndpoint = null,
-   mentionApiBody = null,
-   mentionApiHeaders = null,
    suggestAfterTyping = false,
    noSuggestionsFoundMessage = '',
    suggestionsPlaceholder = '',
-   mentionApiDebounce = 250,
    livewireId,
+   getMentionItemsUsingEnabled = false,
    getSearchResultsUsing,
 }) {
     let editor = null;
@@ -218,18 +215,14 @@ export default function tiptap({
                 TiptapBlock,
             ];
 
-            // TODO: Only add when mentionItems are set or getresultsusing...
-            if(mentionItems || mentionApiEndpoint) {
+            if(mentionItems || getMentionItemsUsingEnabled) {
                 extensions.push(CustomMention.configure({
                     mentionItems,
-                    mentionApiEndpoint,
-                    mentionApiBody,
-                    mentionApiHeaders,
-                    mentionApiDebounce,
                     suggestAfterTyping,
                     noSuggestionsFoundMessage,
                     suggestionsPlaceholder,
                     livewireId,
+                    getMentionItemsUsingEnabled,
                     getSearchResultsUsing,
                 }))
             }
