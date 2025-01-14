@@ -609,6 +609,10 @@ TiptapEditor::make(name: 'content')
 In many scenarios, you may want to load mentionable items dynamically, such as through an API. To enable this functionality, start by adding the following trait to your Livewire component:
 
 ```php
+use FilamentTiptapEditor\Concerns\HasFormMentions;
+
+class YourClass
+{
 use HasFormMentions;
 ```
 

@@ -2,19 +2,11 @@
 
 namespace FilamentTiptapEditor\Concerns;
 
-use Filament\Forms\Components\Concerns\BelongsToContainer;
-use Filament\Forms\Concerns\HasComponents;
-use Filament\Forms\Concerns\InteractsWithForms;
 use FilamentTiptapEditor\TiptapEditor;
 use Livewire\Attributes\Renderless;
 
-// TODO: Is this the way?
 trait HasFormMentions
 {
-    use BelongsToContainer;
-    use HasComponents;
-    use InteractsWithForms;
-
     #[Renderless]
     public function getMentionsItems(string $statePath, string $search): array
     {
