@@ -4,8 +4,8 @@ import { Mention } from '@tiptap/extension-mention'
 import getContent from './get-content.js'
 
 
-let _query = null
-let debounceTimeout = null
+// let _hasStarted = false
+let _query = ''
 let isLoading = false
 
 export const CustomMention = Mention.extend({
@@ -57,6 +57,8 @@ export const CustomMention = Mention.extend({
         editor: this.editor,
         char: '@',
         items: async ({ query }) => {
+          if(!query) return [];
+
           _query = query
 
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
@@ -103,7 +105,7 @@ export const CustomMention = Mention.extend({
                 props,
                 this.options.noSuggestionsFoundMessage,
                 this.options.suggestionsPlaceholder,
-                _query.length > 0,
+                _query,
                 this.options.suggestAfterTyping,
               )
               if (!props.clientRect) {
@@ -123,16 +125,14 @@ export const CustomMention = Mention.extend({
             },
 
             onUpdate(props) {
-              const event = new CustomEvent('update-props', { detail: props })
-              window.dispatchEvent(event)
+              window.dispatchEvent(new CustomEvent('update-props', { detail: props }));
               if (!props.clientRect) {
                 return
               }
             },
 
             onKeyDown(props) {
-              const event = new CustomEvent('suggestion-keydown', { detail: props })
-              window.dispatchEvent(event)
+              window.dispatchEvent(new CustomEvent('suggestion-keydown', { detail: props }))
               if (['ArrowUp', 'ArrowDown', 'Enter'].includes(props.event.key)) {
                 return true
               }
