@@ -584,10 +584,10 @@ TiptapEditor::make(name: 'content')
         new MentionItem(label: 'Banana', id: 1),
         
          // Add a href to make the mention clickable in the final HTML output
-        new MentionItem(label: 'Strawberry', href: 'https://filamentphp.com'),
+        new MentionItem(id: 1, label: 'Strawberry', href: 'https://filamentphp.com'),
         
         // Include additional data to be stored in the final JSON output
-        new MentionItem(label: 'Strawberry', data: ['type' => 'fruit_mentions']),
+        new MentionItem(id: 1, label: 'Strawberry', data: ['type' => 'fruit_mentions']),
     ])
 ```
 
