@@ -20,6 +20,8 @@ trait HasMentions
 
     protected string | Closure $mentionTrigger = '@';
 
+    protected int | Closure $mentionDebounce = 1000;
+
     /**
      * Set mention suggestions.
      *
@@ -72,6 +74,21 @@ trait HasMentions
     public function getMaxMentionItems(): ?int
     {
         return $this->evaluate($this->maxMentionItems);
+    }
+
+    /**
+     * Set debounce when using getMentionItemsUsing
+     */
+    public function mentionDebounce(int | Closure $debounceInMs): static
+    {
+        $this->mentionDebounce = $debounceInMs;
+
+        return $this;
+    }
+
+    public function getMentionDebounce(): int
+    {
+        return $this->evaluate($this->mentionDebounce);
     }
 
     /**

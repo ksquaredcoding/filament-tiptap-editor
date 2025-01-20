@@ -1,12 +1,16 @@
-export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, query) => {
+export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder) => {
     Alpine.data('suggestions', () => ({
-        items: props.items,
-        query: query,
+        items: [],
+        query: "",
         selectedIndex: 0,
         emptyMentionItemsMessage: emptyMentionItemsMessage,
         mentionItemsPlaceholder: mentionItemsPlaceholder,
+        isLoading: true,
+        noQuery: true,
         init() {
+            this.items = props.items ?? [];
             this.$watch('items', () => {
+                this.isLoading = false;
             });
         },
         rootEvents: {
@@ -15,6 +19,9 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, query)
             },
             ['@update-mention-query.window'](e) {
                 this.query = e.detail.query || '';
+            },
+            ['@mention-loading-start.window'](e) {
+                this.isLoading = true;
             },
             ['@suggestion-keydown.window.stop'](e) {
                 this.onKeyDown(e.detail);
@@ -49,33 +56,44 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, query)
         },
     }));
     return `
-  <div class="mention-dropdown" x-data=suggestions  x-bind="rootEvents">
+<div class="mention-dropdown" x-data=suggestions x-bind="rootEvents">
   
- <template x-for="(item, index) in items" :key="index">
-    <button
-        x-on:click="selectItem(index)"
-        :class="{ 'bg-primary-500': index === selectedIndex }"
-        class="w-full text-left rounded px-2 py-1 hover:bg-white/20 flex items-center space-x-2"
-    >
-        <template x-if="item['image']">
+    <!-- Loading spinner -->
+    <template x-if="isLoading && !(mentionItemsPlaceholder && !query.length)">
+        <div class="px-2 py-1">
+          <svg class="animate-spin size-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+      
+    </template>
+
+    <!-- Results list -->
+     <template x-for="(item, index) in items" :key="index">
+        <button
+            x-on:click="selectItem(index)"
+            x-show="!isLoading && (mentionItemsPlaceholder ? query : true)"
+            :class="{ 'bg-primary-500': index === selectedIndex }"
+            class="w-full text-left rounded px-2 py-1 hover:bg-white/20 flex items-center space-x-2">
             <img 
-                :src="item['image']"
-                :class="{ 'rounded-full': item['roundedImage'] }"
+                x-show="item?.image"
+                :src="item?.image || ''"
+                :class="{ 'rounded-full': item?.roundedImage || false }"
                 class="size-5 object-cover"
             />
-        </template> 
-        <span x-text="item['label']"></span>
-    </button>
-</template>
-  
-  <!--  No results found -->
-  <template x-if="! items.length && (query.length || !mentionItemsPlaceholder)">
+            <span x-text="item['label']"></span>
+        </button>
+    </template>
+
+    <!-- No results found -->
+    <template x-if="!isLoading && ! items.length && (query.length || !mentionItemsPlaceholder)" >
       <p x-text="emptyMentionItemsMessage"></p>
-  </template>
-  <!--  Placeholder-->
-    <template x-if="mentionItemsPlaceholder && ! items.length && ! query.length">
+    </template>
+    
+    <!--  Placeholder -->
+    <template x-if="mentionItemsPlaceholder && ! query.length">
       <p x-text="mentionItemsPlaceholder"></p>
-  </template>
-  </div>
-  `;
+    </template>
+</div>`;
 };

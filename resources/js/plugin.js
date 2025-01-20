@@ -171,6 +171,7 @@ export default function tiptap({
    livewireId,
    getMentionItemsUsingEnabled = false,
    getSearchResultsUsing,
+   mentionDebounce
 }) {
     let editor = null;
 
@@ -226,6 +227,7 @@ export default function tiptap({
                     livewireId,
                     getMentionItemsUsingEnabled,
                     getSearchResultsUsing,
+                    mentionDebounce,
                 }))
             }
 

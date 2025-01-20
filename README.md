@@ -626,6 +626,13 @@ TiptapEditor::make(name: 'content')
     })
 ```
 
+There is a default debounce time of 1000ms to prevent excessive searches. You can adjust this duration to suit your needs:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionDebounce(debounceInMs: 300)
+```
+
 #### Adding image prefixes to mention items
 
 You may add images as a prefix to your mention items:

@@ -4,6 +4,7 @@ import { Mention } from '@tiptap/extension-mention'
 import getContent from './get-content.js'
 
 let _query = ''
+let debounceTimeout;
 
 export const CustomMention = Mention.extend({
 
@@ -67,16 +68,19 @@ export const CustomMention = Mention.extend({
         editor: this.editor,
         char: this.options.mentionTrigger ?? '@',
         items: async ({ query }) => {
-          if (this.options.mentionItemsPlaceholder && !query) {
-            return []
-          }
-
           _query = query
 
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
 
           if (this.options.getMentionItemsUsingEnabled) {
-            return await this.options.getSearchResultsUsing(_query)
+            window.dispatchEvent(new CustomEvent('mention-loading-start'));
+            clearTimeout(debounceTimeout);
+            return new Promise((resolve) => {
+              debounceTimeout = setTimeout(async () => {
+                const results = await this.options.getSearchResultsUsing(_query);
+                resolve(results);
+              }, this.options.mentionDebounce);
+            });
           }
 
           let result = this.options.mentionItems
@@ -115,12 +119,11 @@ export const CustomMention = Mention.extend({
           let popup
 
           return {
-            onStart: (props) => {
+            onBeforeStart: (props) => {
               component = getContent(
                 props,
                 this.options.emptyMentionItemsMessage,
                 this.options.mentionItemsPlaceholder,
-                _query,
               )
               if (!props.clientRect) {
                 return
