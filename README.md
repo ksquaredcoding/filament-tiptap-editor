@@ -626,6 +626,20 @@ TiptapEditor::make(name: 'content')
     })
 ```
 
+#### Adding image prefixes to mention items
+
+You may add images as a prefix to your mention items:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionItems([
+        new MentionItem(id: 1, label: 'John Doe', image: 'YOUR_IMAGE_URL'),
+        
+        // Optional: Show rounded image, useful for avatars
+        new MentionItem(id: 1, label: 'John Doe', image: 'YOUR_IMAGE_URL', roundedImage: true),
+    ])
+```
+
 #### Additional Mention Features
 You can customize a few other aspects of the mention feature:
 

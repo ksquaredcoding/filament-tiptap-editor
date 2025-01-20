@@ -51,14 +51,22 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, query)
     return `
   <div class="mention-dropdown" x-data=suggestions  x-bind="rootEvents">
   
-   <template x-for="(item, index) in items" :key="index">
-        <button
-            x-text="item['label']"
-            x-on:click="selectItem(index)"
-            :class="{ 'bg-primary-500': index === selectedIndex }"
-            class="block w-full text-left rounded px-2 py-1 hover:bg-white/20"
-        ></button>
-    </template>
+ <template x-for="(item, index) in items" :key="index">
+    <button
+        x-on:click="selectItem(index)"
+        :class="{ 'bg-primary-500': index === selectedIndex }"
+        class="w-full text-left rounded px-2 py-1 hover:bg-white/20 flex items-center space-x-2"
+    >
+        <template x-if="item['image']">
+            <img 
+                :src="item['image']"
+                :class="{ 'rounded-full': item['roundedImage'] }"
+                class="size-5 object-cover"
+            />
+        </template> 
+        <span x-text="item['label']"></span>
+    </button>
+</template>
   
   <!--  No results found -->
   <template x-if="! items.length && (query.length || !mentionItemsPlaceholder)">

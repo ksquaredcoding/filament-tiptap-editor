@@ -12,15 +12,28 @@ class MentionItem
 
     public string $target;
 
+    public ?string $image = null;
+
+    public bool $roundedImage = false;
+
     public array $data = [];
 
-    public function __construct(int $id, string $label, ?string $href = null, ?string $target = '_blank', array $data = [])
-    {
+    public function __construct(
+        int $id,
+        string $label,
+        ?string $href = null,
+        ?string $target = '_blank',
+        ?string $image = null,
+        bool $roundedImage = false,
+        array $data = []
+    ) {
         $this->id = $id;
         $this->label = $label;
         $this->href = $href;
-        $this->data = $data;
         $this->target = $target;
+        $this->image = $image;
+        $this->roundedImage = $roundedImage;
+        $this->data = $data;
     }
 
     /**
@@ -33,6 +46,7 @@ class MentionItem
             'id' => $this->id,
             'href' => $this->href,
             'target' => $this->target,
+            'image' => $this->image,
             'data' => $this->data,
         ];
     }
