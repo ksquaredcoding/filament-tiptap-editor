@@ -626,7 +626,7 @@ TiptapEditor::make(name: 'content')
     })
 ```
 
-There is a default debounce time of 1000ms to prevent excessive searches. You can adjust this duration to suit your needs:
+There is a default debounce time to prevent excessive searches. You can adjust this duration to suit your needs:
 
 ```php
 TiptapEditor::make(name: 'content')

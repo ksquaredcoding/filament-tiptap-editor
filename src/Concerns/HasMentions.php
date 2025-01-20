@@ -20,7 +20,7 @@ trait HasMentions
 
     protected string | Closure $mentionTrigger = '@';
 
-    protected int | Closure $mentionDebounce = 1000;
+    protected int | Closure $mentionDebounce = 400;
 
     /**
      * Set mention suggestions.
