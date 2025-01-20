@@ -67,7 +67,7 @@ export const CustomMention = Mention.extend({
     return [
       Suggestion({
         editor: this.editor,
-        char: '@',
+        char: this.options.mentionTrigger ?? '@',
         items: async ({ query }) => {
           if (this.options.mentionItemsPlaceholder && !query) {
             return []

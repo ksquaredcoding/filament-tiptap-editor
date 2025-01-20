@@ -573,18 +573,15 @@ TiptapEditor::make('content')
 
 The [Tiptap Mention extension](https://tiptap.dev/docs/editor/extensions/nodes/mention) has been integrated into this package.
 
-#### Static Suggestions
+#### Static Mentions
 
 You can pass an array of suggestions using `->mentionItems()`. The most convenient way is to use instances of the `MentionItem` object, which accepts several parameters:
 
 ```php
 TiptapEditor::make(name: 'content')
     ->mentionItems([
-        // The simplest mention item: a label
-        new MentionItem(label: 'Apple'),
-        
-        // Optionally add an id, which will be included in the attributes
-        new MentionItem(label: 'Banana', id: 2),
+        // The simplest mention item: a label and a id
+        new MentionItem(label: 'Banana', id: 1),
         
          // Add a href to make the mention clickable in the final HTML output
         new MentionItem(label: 'Strawberry', href: 'https://filamentphp.com'),
@@ -599,13 +596,13 @@ Alternatively, you can use arrays instead of `MentionItem` objects:
 ```php
 TiptapEditor::make(name: 'content')
     ->mentionItems([
-        ['label' => 'Apple'],
-        ['label' => 'Banana'],
-        ['label' => 'Strawberry'],
+        ['label' => 'Apple', 'id' => 1],
+        ['label' => 'Banana', 'id' => 2],
+        ['label' => 'Strawberry', 'id' => 3],
     ])
 ```
 
-#### Dynamic Suggestions
+#### Dynamic Mentions
 In many scenarios, you may want to load mentionable items dynamically, such as through an API. To enable this functionality, start by adding the following trait to your Livewire component:
 
 ```php
@@ -635,13 +632,16 @@ You can customize a few other aspects of the mention feature:
 ```php
 TiptapEditor::make(name: 'content')
     // Customize the "No results found" message
-    ->noSuggestionsFoundMessage("No users found")
+    ->emptyMentionItemsMessage("No users found")
     
-    // Set a custom placeholder message
-    ->suggestionsPlaceholder("Search for users...")
+    // Set a custom placeholder message. Note: if you set a placeholder, then it will ONLY show suggestions when the query is not empty.
+    ->mentionItemsPlaceholder("Search for users...")
     
-    // Control when suggestions appear (immediately after typing "@" or after typing some characters, e.g., @j)
-    ->suggestAfterTyping()
+    // Customize how many mention items should be shown at once, 8 by default. Is nullable and only works with static suggestions.
+    ->maxMentionItems()
+
+    // Set a custom character trigger for mentioning. This is '@' by default
+    ->mentionTrigger('#')
 ```
 
 ## Custom Extensions

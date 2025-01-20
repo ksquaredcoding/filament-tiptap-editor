@@ -18,6 +18,8 @@ trait HasMentions
 
     protected ?Closure $getMentionItemsUsing = null;
 
+    protected string | Closure $mentionTrigger = '@';
+
     /**
      * Set mention suggestions.
      *
@@ -70,6 +72,21 @@ trait HasMentions
     public function getMaxMentionItems(): ?int
     {
         return $this->evaluate($this->maxMentionItems);
+    }
+
+    /**
+     * Set a trigger character, '@' by default
+     */
+    public function mentionTrigger(string | Closure $trigger = '@'): static
+    {
+        $this->mentionTrigger = $trigger;
+
+        return $this;
+    }
+
+    public function getMentionTrigger(): string
+    {
+        return $this->evaluate($this->mentionTrigger);
     }
 
     /**
