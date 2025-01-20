@@ -13,9 +13,8 @@
     $showOnlyCurrentPlaceholder = $getShowOnlyCurrentPlaceholder();
     // Mentions
     $mentionItems = $getMentionItems();
-    $suggestAfterTyping = $getSuggestAfterTyping();
     $noSuggestionsFoundMessage = $getNoSuggestionsFoundMessage();
-    $suggestionsPlaceholder = $getSuggestionsPlaceholder();
+    $mentionItemsPlaceholder = $getMentionItemsPlaceholder();
     $getMentionItemsUsingEnabled = $getMentionItemsUsingEnabled();
 @endphp
 
@@ -56,9 +55,8 @@
                         nodePlaceholders: @js($nodePlaceholders),
                         showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder),
                         mentionItems: @js($mentionItems),
-                        suggestAfterTyping: @js($suggestAfterTyping),
                         noSuggestionsFoundMessage: @js($noSuggestionsFoundMessage),
-                        suggestionsPlaceholder: @js($suggestionsPlaceholder),
+                        mentionItemsPlaceholder: @js($mentionItemsPlaceholder),
                         livewireId: @js($this->getId()),
                         getMentionItemsUsingEnabled: @js($getMentionItemsUsingEnabled),
                         getSearchResultsUsing: async (search) => {

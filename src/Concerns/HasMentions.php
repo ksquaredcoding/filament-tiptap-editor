@@ -10,11 +10,9 @@ trait HasMentions
 {
     protected array | Closure | null $mentionItems = null;
 
-    protected bool | Closure | null $suggestAfterTyping = false;
-
     protected string | Closure | null $noSuggestionsFoundMessage = null;
 
-    protected string | Closure | null $suggestionsPlaceholder = null;
+    protected string | Closure | null $mentionItemsPlaceholder = null;
 
     protected ?Closure $getMentionItemsUsing = null;
 
@@ -43,21 +41,6 @@ trait HasMentions
     }
 
     /**
-     * Set whether suggestions should only appear after you start typing
-     */
-    public function suggestAfterTyping(bool | Closure | null $suggestAfterTyping = true): static
-    {
-        $this->suggestAfterTyping = $suggestAfterTyping;
-
-        return $this;
-    }
-
-    public function getSuggestAfterTyping(): bool
-    {
-        return $this->evaluate($this->suggestAfterTyping);
-    }
-
-    /**
      * Set the message to display when no mention suggestions are found.
      */
     public function noSuggestionsFoundMessage(string | Closure | null $message): static
@@ -75,16 +58,16 @@ trait HasMentions
     /**
      * Set the message to display in the empty suggestions state when the trigger character is typed but no input is provided.
      */
-    public function suggestionsPlaceholder(string | Closure | null $message): static
+    public function mentionItemsPlaceholder(string | Closure | null $message): static
     {
-        $this->suggestionsPlaceholder = $message;
+        $this->mentionItemsPlaceholder = $message;
 
         return $this;
     }
 
-    public function getSuggestionsPlaceholder(): string
+    public function getMentionItemsPlaceholder(): ?string
     {
-        return $this->evaluate($this->suggestionsPlaceholder) ?? trans('filament-tiptap-editor::editor.mentions.suggestions_placeholder');
+        return $this->evaluate($this->mentionItemsPlaceholder);
     }
 
     public function getMentionItemsUsing(?Closure $callback): static

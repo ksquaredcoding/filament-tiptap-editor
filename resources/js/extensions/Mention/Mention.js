@@ -69,13 +69,15 @@ export const CustomMention = Mention.extend({
         editor: this.editor,
         char: '@',
         items: async ({ query }) => {
-          if(!query) return [];
+          if (this.options.mentionItemsPlaceholder && !query) {
+            return []
+          }
 
           _query = query
 
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
 
-          if (this.options.suggestAfterTyping && !query) return []
+
 
           if(this.options.getMentionItemsUsingEnabled) {
             return await this.options.getSearchResultsUsing(_query)
@@ -116,9 +118,8 @@ export const CustomMention = Mention.extend({
               component = getContent(
                 props,
                 this.options.noSuggestionsFoundMessage,
-                this.options.suggestionsPlaceholder,
+                this.options.mentionItemsPlaceholder,
                 _query,
-                this.options.suggestAfterTyping,
               )
               if (!props.clientRect) {
                 return
