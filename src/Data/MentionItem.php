@@ -47,6 +47,7 @@ class MentionItem
             'href' => $this->href,
             'target' => $this->target,
             'image' => $this->image,
+            'roundedImage' => $this->roundedImage,
             'data' => $this->data,
         ];
     }

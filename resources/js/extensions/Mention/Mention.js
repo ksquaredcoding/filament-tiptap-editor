@@ -141,6 +141,12 @@ export const CustomMention = Mention.extend({
               })
             },
 
+            onStart: (props) => {
+              if(!this.options.mentionItemsPlaceholder) {
+                window.dispatchEvent(new CustomEvent('update-props', { detail: props }));
+              }
+            },
+
             onUpdate(props) {
               window.dispatchEvent(new CustomEvent('update-props', { detail: props }));
               if (!props.clientRect) {

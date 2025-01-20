@@ -5,10 +5,10 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder) => {
         selectedIndex: 0,
         emptyMentionItemsMessage: emptyMentionItemsMessage,
         mentionItemsPlaceholder: mentionItemsPlaceholder,
-        isLoading: true,
+        isLoading: !mentionItemsPlaceholder,
         noQuery: true,
         init() {
-            this.items = props.items ?? [];
+            this.items = mentionItemsPlaceholder ? [] : props.items;
             this.$watch('items', () => {
                 this.isLoading = false;
             });
@@ -75,19 +75,19 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder) => {
             x-on:click="selectItem(index)"
             x-show="!isLoading && (mentionItemsPlaceholder ? query : true)"
             :class="{ 'bg-primary-500': index === selectedIndex }"
-            class="w-full text-left rounded px-2 py-1 hover:bg-white/20 flex items-center space-x-2">
+            class="w-full text-left rounded px-2 py-1 hover:bg-white/20 flex items-center">
             <img 
-                x-show="item?.image"
-                :src="item?.image || ''"
-                :class="{ 'rounded-full': item?.roundedImage || false }"
-                class="size-5 object-cover"
+                x-show="item['image']"
+                :src="item['image'] || ''"
+                :class="{ 'rounded-full': item['roundedImage'] }"
+                class="size-5 object-cover mr-2"
             />
             <span x-text="item['label']"></span>
         </button>
     </template>
 
     <!-- No results found -->
-    <template x-if="!isLoading && ! items.length && (query.length || !mentionItemsPlaceholder)" >
+    <template x-if="!isLoading && ! items.length && (mentionItemsPlaceholder ? query.length > 0 : true)" >
       <p x-text="emptyMentionItemsMessage"></p>
     </template>
     
