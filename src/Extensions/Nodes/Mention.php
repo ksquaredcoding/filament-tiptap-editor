@@ -10,27 +10,6 @@ class Mention extends Node
 {
     public static $name = 'mention';
 
-    public function addAttributes(): array
-    {
-        return [
-            'href' => [
-                'default' => null,
-                'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute('src');
-                },
-            ],
-        ];
-    }
-
-    public function parseHTML(): array
-    {
-        return [
-            [
-                'tag' => 'span[data-mention]',
-            ],
-        ];
-    }
-
     public function renderText($node)
     {
         return $node->attrs->label;
@@ -38,11 +17,20 @@ class Mention extends Node
 
     public function renderHTML($node, $HTMLAttributes = []): array
     {
+        $dataAttributes = [
+            'data-mention-id' => $node->attrs->id,
+        ];
+
+        if ($node->attrs->data) {
+            $dataAttributes['data-mention-data'] = json_encode($node->attrs->data);
+        }
+
         if (property_exists($node->attrs, 'href')) {
             return [
                 'a',
                 [
                     'href' => $node->attrs->href,
+                    ...$dataAttributes,
                 ],
             ];
         }
@@ -51,6 +39,7 @@ class Mention extends Node
             'span',
             [
                 'data-mention-id' => $node->attrs->id,
+                ...$dataAttributes,
             ],
             0,
         ];
