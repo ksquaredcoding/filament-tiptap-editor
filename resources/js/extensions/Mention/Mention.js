@@ -77,13 +77,18 @@ export const CustomMention = Mention.extend({
 
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
 
-          if(this.options.getMentionItemsUsingEnabled) {
+          if (this.options.getMentionItemsUsingEnabled) {
             return await this.options.getSearchResultsUsing(_query)
           }
 
-          return this.options.mentionItems
+          let result = this.options.mentionItems
             .filter((item) => item['label'].toLowerCase().startsWith(query.toLowerCase()))
-            .slice(0, 5);
+
+          if (this.options.maxMentionItems) {
+            result = result.slice(0, this.options.maxMentionItems)
+          }
+
+          return result
         },
         command: ({ editor, range, props }) => {
           let deleteFrom = range.to + 1

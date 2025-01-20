@@ -14,6 +14,8 @@ trait HasMentions
 
     protected string | Closure | null $mentionItemsPlaceholder = null;
 
+    protected int | Closure | null $maxMentionItems = 8;
+
     protected ?Closure $getMentionItemsUsing = null;
 
     /**
@@ -53,6 +55,21 @@ trait HasMentions
     public function getEmptyMentionItemsMessage(): string
     {
         return $this->evaluate($this->emptyMentionItemsMessage) ?? trans('filament-tiptap-editor::editor.mentions.no_suggestions_found');
+    }
+
+    /**
+     * Show a maximum of mention items
+     */
+    public function maxMentionItems(int | Closure | null $maxItems): static
+    {
+        $this->maxMentionItems = $maxItems;
+
+        return $this;
+    }
+
+    public function getMaxMentionItems(): ?int
+    {
+        return $this->evaluate($this->maxMentionItems);
     }
 
     /**

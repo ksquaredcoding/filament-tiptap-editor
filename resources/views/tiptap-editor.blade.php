@@ -16,6 +16,7 @@
     $emptyMentionItemsMessage = $getEmptyMentionItemsMessage();
     $mentionItemsPlaceholder = $getMentionItemsPlaceholder();
     $getMentionItemsUsingEnabled = $getMentionItemsUsingEnabled();
+    $maxMentionItems = $getMaxMentionItems();
 @endphp
 
 <x-dynamic-component
@@ -57,6 +58,7 @@
                         mentionItems: @js($mentionItems),
                         emptyMentionItemsMessage: @js($emptyMentionItemsMessage),
                         mentionItemsPlaceholder: @js($mentionItemsPlaceholder),
+                        maxMentionItems: @js($maxMentionItems),
                         livewireId: @js($this->getId()),
                         getMentionItemsUsingEnabled: @js($getMentionItemsUsingEnabled),
                         getSearchResultsUsing: async (search) => {
