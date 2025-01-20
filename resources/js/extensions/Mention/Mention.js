@@ -4,7 +4,6 @@ import { Mention } from '@tiptap/extension-mention'
 import getContent from './get-content.js'
 
 
-// let _hasStarted = false
 let _query = ''
 let isLoading = false
 
@@ -35,9 +34,22 @@ export const CustomMention = Mention.extend({
           }
         },
       },
+      target: {
+        default: null,
+        parseHTML: element => element.getAttribute('data-target'),
+        renderHTML: attributes => {
+          if (!attributes.target) {
+            return {}
+          }
+
+          return {
+            'data-target': attributes.target,
+          }
+        },
+      },
       data: {
         default: [],
-        parseHTML: element => element.getAttribute('data-data'),
+        parseHTML: element => element.getAttribute('data-mention-data'),
         renderHTML: attributes => {
           if (!attributes.data) {
             return {}

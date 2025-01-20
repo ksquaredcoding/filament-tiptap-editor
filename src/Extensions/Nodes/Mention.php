@@ -30,6 +30,7 @@ class Mention extends Node
                 'a',
                 [
                     'href' => $node->attrs->href,
+                    'target' => $node->attrs->target,
                     ...$dataAttributes,
                 ],
             ];
