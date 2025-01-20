@@ -13,7 +13,7 @@
     $showOnlyCurrentPlaceholder = $getShowOnlyCurrentPlaceholder();
     // Mentions
     $mentionItems = $getMentionItems();
-    $noSuggestionsFoundMessage = $getNoSuggestionsFoundMessage();
+    $emptyMentionItemsMessage = $getEmptyMentionItemsMessage();
     $mentionItemsPlaceholder = $getMentionItemsPlaceholder();
     $getMentionItemsUsingEnabled = $getMentionItemsUsingEnabled();
 @endphp
@@ -55,7 +55,7 @@
                         nodePlaceholders: @js($nodePlaceholders),
                         showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder),
                         mentionItems: @js($mentionItems),
-                        noSuggestionsFoundMessage: @js($noSuggestionsFoundMessage),
+                        emptyMentionItemsMessage: @js($emptyMentionItemsMessage),
                         mentionItemsPlaceholder: @js($mentionItemsPlaceholder),
                         livewireId: @js($this->getId()),
                         getMentionItemsUsingEnabled: @js($getMentionItemsUsingEnabled),

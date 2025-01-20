@@ -1,9 +1,9 @@
-export default (props, noSuggestionsFoundMessage, mentionItemsPlaceholder, query) => {
+export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, query) => {
     Alpine.data('suggestions', () => ({
         items: props.items,
         query: query,
         selectedIndex: 0,
-        noSuggestionsFoundMessage: noSuggestionsFoundMessage,
+        emptyMentionItemsMessage: emptyMentionItemsMessage,
         mentionItemsPlaceholder: mentionItemsPlaceholder,
         loading: false,
         init() {
@@ -69,7 +69,7 @@ export default (props, noSuggestionsFoundMessage, mentionItemsPlaceholder, query
   
   <!--  No results found -->
   <template x-if="! items.length && (query.length || !mentionItemsPlaceholder)">
-      <p x-text="noSuggestionsFoundMessage"></p>
+      <p x-text="emptyMentionItemsMessage"></p>
   </template>
   <!--  Placeholder-->
     <template x-if="mentionItemsPlaceholder && ! items.length && ! query.length">

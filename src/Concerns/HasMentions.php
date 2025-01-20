@@ -10,7 +10,7 @@ trait HasMentions
 {
     protected array | Closure | null $mentionItems = null;
 
-    protected string | Closure | null $noSuggestionsFoundMessage = null;
+    protected string | Closure | null $emptyMentionItemsMessage = null;
 
     protected string | Closure | null $mentionItemsPlaceholder = null;
 
@@ -43,16 +43,16 @@ trait HasMentions
     /**
      * Set the message to display when no mention suggestions are found.
      */
-    public function noSuggestionsFoundMessage(string | Closure | null $message): static
+    public function emptyMentionItemsMessage(string | Closure | null $message): static
     {
-        $this->noSuggestionsFoundMessage = $message;
+        $this->emptyMentionItemsMessage = $message;
 
         return $this;
     }
 
-    public function getNoSuggestionsFoundMessage(): string
+    public function getEmptyMentionItemsMessage(): string
     {
-        return $this->evaluate($this->noSuggestionsFoundMessage) ?? trans('filament-tiptap-editor::editor.mentions.no_suggestions_found');
+        return $this->evaluate($this->emptyMentionItemsMessage) ?? trans('filament-tiptap-editor::editor.mentions.no_suggestions_found');
     }
 
     /**

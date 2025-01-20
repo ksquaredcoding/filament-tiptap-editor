@@ -164,7 +164,7 @@ export default function tiptap({
    nodePlaceholders = [],
    showOnlyCurrentPlaceholder = true,
    mentionItems = null,
-   noSuggestionsFoundMessage = '',
+   emptyMentionItemsMessage = '',
    mentionItemsPlaceholder = null,
    livewireId,
    getMentionItemsUsingEnabled = false,
@@ -217,7 +217,7 @@ export default function tiptap({
             if(mentionItems || getMentionItemsUsingEnabled) {
                 extensions.push(CustomMention.configure({
                     mentionItems,
-                    noSuggestionsFoundMessage,
+                    emptyMentionItemsMessage,
                     mentionItemsPlaceholder,
                     livewireId,
                     getMentionItemsUsingEnabled,

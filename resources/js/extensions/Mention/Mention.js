@@ -77,8 +77,6 @@ export const CustomMention = Mention.extend({
 
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
 
-
-
           if(this.options.getMentionItemsUsingEnabled) {
             return await this.options.getSearchResultsUsing(_query)
           }
@@ -117,7 +115,7 @@ export const CustomMention = Mention.extend({
             onStart: (props) => {
               component = getContent(
                 props,
-                this.options.noSuggestionsFoundMessage,
+                this.options.emptyMentionItemsMessage,
                 this.options.mentionItemsPlaceholder,
                 _query,
               )
