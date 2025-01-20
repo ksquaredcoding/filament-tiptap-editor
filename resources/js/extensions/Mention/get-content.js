@@ -5,7 +5,6 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, query)
         selectedIndex: 0,
         emptyMentionItemsMessage: emptyMentionItemsMessage,
         mentionItemsPlaceholder: mentionItemsPlaceholder,
-        loading: false,
         init() {
             this.$watch('items', () => {
             });
@@ -19,12 +18,6 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, query)
             },
             ['@suggestion-keydown.window.stop'](e) {
                 this.onKeyDown(e.detail);
-            },
-            ['@mention-api-loading-start.window'](e) {
-                this.loading = true;
-            },
-            ['@mention-api-loading-end.window'](e) {
-                this.loading = false;
             },
         },
 

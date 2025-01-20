@@ -3,9 +3,7 @@ import tippy from 'tippy.js'
 import { Mention } from '@tiptap/extension-mention'
 import getContent from './get-content.js'
 
-
 let _query = ''
-let isLoading = false
 
 export const CustomMention = Mention.extend({
 
