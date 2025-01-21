@@ -33,6 +33,19 @@ export const CustomMention = Mention.extend({
           }
         },
       },
+      type: {
+        default: null,
+        parseHTML: element => element.getAttribute('data-type'),
+        renderHTML: attributes => {
+          if (!attributes.type) {
+            return {}
+          }
+
+          return {
+            'data-type': attributes.type,
+          }
+        },
+      },
       target: {
         default: null,
         parseHTML: element => element.getAttribute('data-target'),
