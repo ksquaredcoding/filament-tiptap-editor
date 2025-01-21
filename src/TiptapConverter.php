@@ -154,6 +154,8 @@ class TiptapConverter
             $this->parseMergeTags($editor);
         }
 
+        $this->parseMentionItems($editor);
+
         return $editor->getText();
     }
 
@@ -256,6 +258,24 @@ class TiptapConverter
                     ],
                 ];
             }
+        });
+
+        return $editor;
+    }
+
+    public function parseMentionItems(Editor $editor): Editor
+    {
+        $editor->descendants(function (&$node) {
+            if ($node->type !== 'mention') {
+                return;
+            }
+
+            $node->content = [
+                (object) [
+                    'type' => 'text',
+                    'text' => $node->attrs->label ?? $node->attrs->id,
+                ],
+            ];
         });
 
         return $editor;
