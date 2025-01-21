@@ -602,6 +602,14 @@ TiptapEditor::make(name: 'content')
     ])
 ```
 
+You can specify a search strategy for mentions. By default, the search uses a "starts with" approach, matching labels that begin with your query. Alternatively, you can opt for the tokenized strategy, which is suited for matching multiple keywords within a label.
+
+```php
+TiptapEditor::make(name: 'content')
+    // You can also use MentionSearchStrategy::Tokenized
+    ->mentionSearchStrategy(MentionSearchStrategy::StartsWith)
+```
+
 #### Dynamic Mentions
 In many scenarios, you may want to load mentionable items dynamically, such as through an API. To enable this functionality, start by adding the following trait to your Livewire component:
 
@@ -663,6 +671,7 @@ TiptapEditor::make(name: 'content')
 
     // Set a custom character trigger for mentioning. This is '@' by default
     ->mentionTrigger('#')
+
 ```
 
 ## Custom Extensions

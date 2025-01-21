@@ -4,6 +4,7 @@ namespace FilamentTiptapEditor\Concerns;
 
 use Closure;
 use FilamentTiptapEditor\Data\MentionItem;
+use FilamentTiptapEditor\Enums\MentionSearchStrategy;
 use Illuminate\Contracts\Support\Arrayable;
 
 trait HasMentions
@@ -21,6 +22,8 @@ trait HasMentions
     protected string | Closure $mentionTrigger = '@';
 
     protected int | Closure $mentionDebounce = 400;
+
+    protected MentionSearchStrategy | Closure $mentionSearchStrategy = MentionSearchStrategy::StartsWith;
 
     /**
      * Set mention suggestions.
@@ -59,6 +62,21 @@ trait HasMentions
     public function getEmptyMentionItemsMessage(): string
     {
         return $this->evaluate($this->emptyMentionItemsMessage) ?? trans('filament-tiptap-editor::editor.mentions.no_suggestions_found');
+    }
+
+    /**
+     * Set the search strategy for static mention items
+     */
+    public function mentionSearchStrategy(MentionSearchStrategy | Closure $searchStrategy): static
+    {
+        $this->mentionSearchStrategy = $searchStrategy;
+
+        return $this;
+    }
+
+    public function getMentionSearchStrategy(): string
+    {
+        return $this->evaluate($this->mentionSearchStrategy)->value;
     }
 
     /**

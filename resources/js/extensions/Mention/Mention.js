@@ -96,8 +96,21 @@ export const CustomMention = Mention.extend({
             });
           }
 
-          let result = this.options.mentionItems
-            .filter((item) => item['label'].toLowerCase().startsWith(query.toLowerCase()))
+          let result = [];
+
+          switch (this.options.mentionSearchStrategy) {
+            case 'starts_with':
+              result = this.options.mentionItems
+                .filter((item) => item['label'].toLowerCase().startsWith(query.toLowerCase()));
+              break;
+
+            case 'tokenized':
+              let tokens = query.toLowerCase().split(/\s+/);
+              result = this.options.mentionItems.filter((item) =>
+                tokens.every(token => item['label'].toLowerCase().includes(token))
+              );
+              break;
+          }
 
           if (this.options.maxMentionItems) {
             result = result.slice(0, this.options.maxMentionItems)

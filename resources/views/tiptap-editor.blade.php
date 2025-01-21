@@ -19,6 +19,7 @@
     $maxMentionItems = $getMaxMentionItems();
     $mentionTrigger = $getMentionTrigger();
     $mentionDebounce = $getMentionDebounce();
+    $mentionSearchStrategy = $getMentionSearchStrategy();
 @endphp
 
 <x-dynamic-component
@@ -67,7 +68,8 @@
                         getSearchResultsUsing: async (search) => {
                           return await $wire.getMentionsItems(@js($statePath), search)
                         },
-                        mentionDebounce: @js($mentionDebounce)
+                        mentionDebounce: @js($mentionDebounce),
+                        mentionSearchStrategy: @js($mentionSearchStrategy),
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"
