@@ -154,8 +154,7 @@ class TiptapConverter
             $this->parseMergeTags($editor);
         }
 
-        // TODO: Somehow, this isn't working when the content contains headings. Fix.
-    //        $this->parseMentionItems($editor);
+        $this->parseMentionItems($editor);
 
         return $editor->getText();
     }
