@@ -16,11 +16,14 @@ class MentionItem
 
     public bool $roundedImage = false;
 
+    public ?string $type = null;
+
     public array $data = [];
 
     public function __construct(
         int $id,
         string $label,
+        ?string $type = null,
         ?string $href = null,
         ?string $target = '_blank',
         ?string $image = null,
@@ -29,6 +32,7 @@ class MentionItem
     ) {
         $this->id = $id;
         $this->label = $label;
+        $this->type = $type;
         $this->href = $href;
         $this->target = $target;
         $this->image = $image;
@@ -44,6 +48,7 @@ class MentionItem
         return [
             'label' => $this->label,
             'id' => $this->id,
+            'type' => $this->type,
             'href' => $this->href,
             'target' => $this->target,
             'image' => $this->image,
