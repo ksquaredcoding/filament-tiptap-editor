@@ -143,6 +143,8 @@ export const CustomMention = Mention.extend({
             .run()
 
           window.getSelection()?.collapseToEnd()
+
+          _query = '';
         },
         render: () => {
           let component
