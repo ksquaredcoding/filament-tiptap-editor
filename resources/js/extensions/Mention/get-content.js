@@ -1,14 +1,12 @@
-export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder) => {
+export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, initialQuery) => {
     Alpine.data('suggestions', () => ({
-        items: [],
-        query: "",
+        items: props.items,
+        query: initialQuery,
         selectedIndex: 0,
         emptyMentionItemsMessage: emptyMentionItemsMessage,
         mentionItemsPlaceholder: mentionItemsPlaceholder,
         isLoading: !mentionItemsPlaceholder,
-        noQuery: true,
         init() {
-            this.items = mentionItemsPlaceholder ? [] : props.items;
             this.$watch('items', () => {
                 this.isLoading = false;
             });
@@ -66,14 +64,13 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder) => {
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
       </div>
-      
     </template>
 
     <!-- Results list -->
      <template x-for="(item, index) in items" :key="index">
         <button
             x-on:click="selectItem(index)"
-            x-show="!isLoading && (mentionItemsPlaceholder ? query : true)"
+            x-show="!isLoading"
             :class="{ 'bg-primary-500': index === selectedIndex }"
             class="w-full text-left rounded px-2 py-1 hover:bg-white/20 flex items-center">
             <img 
@@ -87,13 +84,13 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder) => {
     </template>
 
     <!-- No results found -->
-    <template x-if="!isLoading && ! items.length && (mentionItemsPlaceholder ? query.length > 0 : true)" >
+    <span x-show="!isLoading && ! items.length && (mentionItemsPlaceholder ? query.length > 0 : true)" >
       <p x-text="emptyMentionItemsMessage"></p>
-    </template>
+    </span>
     
     <!--  Placeholder -->
-    <template x-if="mentionItemsPlaceholder && ! query.length">
+    <span x-show="mentionItemsPlaceholder && ! query.length">
       <p x-text="mentionItemsPlaceholder"></p>
-    </template>
+    </span>
 </div>`;
 };

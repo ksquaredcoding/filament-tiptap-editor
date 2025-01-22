@@ -85,6 +85,10 @@ export const CustomMention = Mention.extend({
 
           window.dispatchEvent(new CustomEvent('update-mention-query', { detail: { query: query } }))
 
+          if(this.options.mentionItemsPlaceholder && !query) {
+            return [];
+          }
+
           if (this.options.getMentionItemsUsingEnabled) {
             window.dispatchEvent(new CustomEvent('mention-loading-start'));
             clearTimeout(debounceTimeout);
@@ -150,6 +154,7 @@ export const CustomMention = Mention.extend({
                 props,
                 this.options.emptyMentionItemsMessage,
                 this.options.mentionItemsPlaceholder,
+                _query
               )
               if (!props.clientRect) {
                 return
@@ -168,9 +173,7 @@ export const CustomMention = Mention.extend({
             },
 
             onStart: (props) => {
-              if(!this.options.mentionItemsPlaceholder) {
                 window.dispatchEvent(new CustomEvent('update-props', { detail: props }));
-              }
             },
 
             onUpdate(props) {
