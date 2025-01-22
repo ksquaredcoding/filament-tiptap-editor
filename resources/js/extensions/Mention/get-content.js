@@ -84,13 +84,13 @@ export default (props, emptyMentionItemsMessage, mentionItemsPlaceholder, initia
     </template>
 
     <!-- No results found -->
-    <span x-show="!isLoading && ! items.length && (mentionItemsPlaceholder ? query.length > 0 : true)" >
+    <template x-if="!isLoading && ! items.length && (mentionItemsPlaceholder ? query.length > 0 : true)" >
       <p x-text="emptyMentionItemsMessage"></p>
-    </span>
+    </template>
     
     <!--  Placeholder -->
-    <span x-show="mentionItemsPlaceholder && ! query.length">
+    <template x-if="mentionItemsPlaceholder && ! query.length">
       <p x-text="mentionItemsPlaceholder"></p>
-    </span>
+    </template>
 </div>`;
 };
