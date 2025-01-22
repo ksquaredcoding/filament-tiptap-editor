@@ -123,13 +123,14 @@ export const CustomMention = Mention.extend({
           return result
         },
         command: ({ editor, range, props }) => {
-          let deleteFrom = range.to + 1
-          let deleteTo = _query.length + deleteFrom
+          let currentPosition = editor.state.selection.$anchor.pos;
+          let deleteFrom = currentPosition - _query.length - 1;
 
           editor
             .chain()
             .focus()
-            .insertContentAt(range, [
+            .deleteRange({ from: deleteFrom, to: currentPosition })
+            .insertContentAt(deleteFrom, [
               {
                 type: 'mention',
                 attrs: props,
@@ -139,7 +140,6 @@ export const CustomMention = Mention.extend({
                 text: ' ',
               },
             ])
-            .deleteRange({ from: deleteFrom, to: deleteTo })
             .run()
 
           window.getSelection()?.collapseToEnd()
