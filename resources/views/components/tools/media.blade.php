@@ -27,6 +27,7 @@
                 width: media.width || '',
                 height: media.height || '',
                 lazy: media.lazy || false,
+                media: media.media || '',
             };
 
             {{ $action }}
