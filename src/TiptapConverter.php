@@ -194,7 +194,7 @@ class TiptapConverter
             if (! property_exists($node->attrs, 'id') || $node->attrs->id === null) {
                 $node->attrs->id = str(collect($node->content)->map(function ($node) {
                     return $node?->text ?? null;
-                })->implode(' '))->kebab()->toString();
+                })->implode(' '))->slug()->toString();
             }
 
             array_unshift($node->content, (object) [
@@ -226,7 +226,7 @@ class TiptapConverter
                     })->implode(' ');
 
                     if (! isset($node['attrs']['id'])) {
-                        $node['attrs']['id'] = str($text)->kebab()->toString();
+                        $node['attrs']['id'] = str($text)->slug()->toString();
                     }
 
                     $headings[] = [

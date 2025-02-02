@@ -122,7 +122,9 @@ export const TiptapBlock = Node.create({
                             })
                         },
                         deleteBlock() {
-                            this.$dispatch('delete-block')
+                            this.$dispatch('delete-block', {
+                                statePath: \`${editor.commands.getStatePath()}\`
+                            })
                         }
                     }"
                     class="tiptap-block"
