@@ -72,7 +72,6 @@
                         },
                         mentionDebounce: @js($mentionDebounce),
                         mentionSearchStrategy: @js($mentionSearchStrategy),
-
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"
