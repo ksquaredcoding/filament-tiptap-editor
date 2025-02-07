@@ -164,6 +164,7 @@ export default function tiptap({
    customDocument = null,
    nodePlaceholders = [],
    showOnlyCurrentPlaceholder = true,
+   debounce = null,
    mentionItems = null,
    emptyMentionItemsMessage = '',
    mentionItemsPlaceholder = null,
@@ -396,8 +397,11 @@ export default function tiptap({
                         }
                     },
                     onUpdate({editor}) {
-                        _this.state = editor.isEmpty ? null : editor.getJSON();
                         _this.updatedAt = Date.now();
+                        clearTimeout(_this.timeOut);
+                        _this.timeOut = setTimeout(function(){
+                            _this.state = editor.isEmpty ? null : editor.getJSON();
+                        },debounce ?? 0);
                     },
                     onSelectionUpdate() {
                         _this.updatedAt = Date.now();

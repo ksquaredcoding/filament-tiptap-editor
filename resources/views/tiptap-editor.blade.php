@@ -47,7 +47,7 @@
                     class="relative z-0 tiptap-wrapper rounded-md bg-white dark:bg-gray-900 focus-within:ring focus-within:ring-primary-500 focus-within:z-10"
                     x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
                     x-data="tiptap({
-                        state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: true) }},
+                        state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')", isOptimisticallyLive: true) }},
                         statePath: '{{ $statePath }}',
                         tools: @js($tools),
                         disabled: @js($isDisabled),
@@ -59,6 +59,7 @@
                         customDocument: @js($customDocument),
                         nodePlaceholders: @js($nodePlaceholders),
                         showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder),
+                        debounce: @js($getLiveDebounce()),
                         mentionItems: @js($mentionItems),
                         emptyMentionItemsMessage: @js($emptyMentionItemsMessage),
                         mentionItemsPlaceholder: @js($mentionItemsPlaceholder),
@@ -71,6 +72,7 @@
                         },
                         mentionDebounce: @js($mentionDebounce),
                         mentionSearchStrategy: @js($mentionSearchStrategy),
+
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"
