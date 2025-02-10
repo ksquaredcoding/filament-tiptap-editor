@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "filament/filament": "^3.0",
+        "filament/filament": "^3.2.138",
         "spatie/laravel-package-tools": "^1.9.2",
         "ueberdosis/tiptap-php": "^1.1"
     },

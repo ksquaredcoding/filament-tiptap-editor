@@ -55,6 +55,7 @@
     "@tiptap/pm": "^2.1.12",
     "@tiptap/suggestion": "^2.1.12",
     "alpinejs": "^3.10.5",
+    "async-alpine": "^2.0",
     "autoprefixer": "^10.4.7",
     "esbuild": "^0.19.4",
     "highlight.js": "^11.5.0",
