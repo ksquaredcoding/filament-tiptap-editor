@@ -26,8 +26,8 @@ class TiptapEditor extends Field
     use HasCustomActions;
     use HasExtraAlpineAttributes;
     use HasExtraInputAttributes;
-    use HasPlaceholder;
     use HasMentions;
+    use HasPlaceholder;
     use InteractsWithMedia;
     use InteractsWithMenus;
 
