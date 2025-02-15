@@ -542,6 +542,138 @@ TiptapEditor::make('content')
     ->showOnlyCurrentPlaceholder(false)
 ```
 
+### Placeholders
+
+You can easily set a placeholder, the Filament way:
+
+```php
+TiptapEditor::make('content')
+    ->placeholder('Write something...')
+```
+
+You can define specific placeholders for each node type using the `->nodePlaceholders()` method. This method accepts an associative array, where the keys are the node type names, and the values are the corresponding placeholder texts.
+
+```php
+TiptapEditor::make('content')
+    ->nodePlaceholders([
+        'paragraph' => 'Start writing your paragraph...',
+        'heading' => 'Insert a heading...',
+    ])
+```
+
+The `->showOnlyCurrentPlaceholder()` method allows you to control whether placeholders are shown for all nodes simultaneously or only for the currently active node.
+
+```php
+TiptapEditor::make('content')
+    // All nodes will immediately be displayed, instead of only the selected node
+    ->showOnlyCurrentPlaceholder(false)
+```
+
+### Mentions
+
+The [Tiptap Mention extension](https://tiptap.dev/docs/editor/extensions/nodes/mention) has been integrated into this package.
+
+#### Static Mentions
+
+You can pass an array of suggestions using `->mentionItems()`. The most convenient way is to use instances of the `MentionItem` object, which accepts several parameters:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionItems([
+        // The simplest mention item: a label and a id
+        new MentionItem(label: 'Banana', id: 1),
+        
+         // Add a href to make the mention clickable in the final HTML output
+        new MentionItem(id: 1, label: 'Strawberry', href: 'https://filamentphp.com'),
+        
+        // Include additional data to be stored in the final JSON output
+        new MentionItem(id: 1, label: 'Strawberry', data: ['type' => 'fruit_mentions']),
+    ])
+```
+
+Alternatively, you can use arrays instead of `MentionItem` objects:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionItems([
+        ['label' => 'Apple', 'id' => 1],
+        ['label' => 'Banana', 'id' => 2],
+        ['label' => 'Strawberry', 'id' => 3],
+    ])
+```
+
+You can specify a search strategy for mentions. By default, the search uses a "starts with" approach, matching labels that begin with your query. Alternatively, you can opt for the tokenized strategy, which is suited for matching multiple keywords within a label.
+
+```php
+TiptapEditor::make(name: 'content')
+    // You can also use MentionSearchStrategy::Tokenized
+    ->mentionSearchStrategy(MentionSearchStrategy::StartsWith)
+```
+
+#### Dynamic Mentions
+In many scenarios, you may want to load mentionable items dynamically, such as through an API. To enable this functionality, start by adding the following trait to your Livewire component:
+
+```php
+use FilamentTiptapEditor\Concerns\HasFormMentions;
+
+class YourClass
+{
+use HasFormMentions;
+```
+
+Next, you can provide dynamic suggestions using the `getMentionItemsUsing()` method. Here's an example:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->getMentionItemsUsing(function (string $query) {
+        // Get suggestions based of the $query
+        return User::search($query)->get()->map(fn ($user) => new MentionItem(
+            id: $user->id,
+            label: $user->name
+        ))->take(5)->toArray();
+    })
+```
+
+There is a default debounce time to prevent excessive searches. You can adjust this duration to suit your needs:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionDebounce(debounceInMs: 300)
+```
+
+#### Adding image prefixes to mention items
+
+You may add images as a prefix to your mention items:
+
+```php
+TiptapEditor::make(name: 'content')
+    ->mentionItems([
+        new MentionItem(id: 1, label: 'John Doe', image: 'YOUR_IMAGE_URL'),
+        
+        // Optional: Show rounded image, useful for avatars
+        new MentionItem(id: 1, label: 'John Doe', image: 'YOUR_IMAGE_URL', roundedImage: true),
+    ])
+```
+
+#### Additional Mention Features
+You can customize a few other aspects of the mention feature:
+
+```php
+TiptapEditor::make(name: 'content')
+    // Customize the "No results found" message
+    ->emptyMentionItemsMessage("No users found")
+    
+    // Set a custom placeholder message. Note: if you set a placeholder, then it will ONLY show suggestions when the query is not empty.
+    ->mentionItemsPlaceholder("Search for users...")
+    
+    // Customize how many mention items should be shown at once, 8 by default. Is nullable and only works with static suggestions.
+    ->maxMentionItems()
+
+    // Set a custom character trigger for mentioning. This is '@' by default
+    ->mentionTrigger('#')
+
+```
+
 ## Custom Extensions
 
 You can add your own extensions to the editor by creating the necessary files and adding them to the config file extensions array.

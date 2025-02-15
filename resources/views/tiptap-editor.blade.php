@@ -11,6 +11,15 @@
     $customDocument = $getCustomDocument();
     $nodePlaceholders = $getNodePlaceholders();
     $showOnlyCurrentPlaceholder = $getShowOnlyCurrentPlaceholder();
+    // Mentions
+    $mentionItems = $getMentionItems();
+    $emptyMentionItemsMessage = $getEmptyMentionItemsMessage();
+    $mentionItemsPlaceholder = $getMentionItemsPlaceholder();
+    $getMentionItemsUsingEnabled = $getMentionItemsUsingEnabled();
+    $maxMentionItems = $getMaxMentionItems();
+    $mentionTrigger = $getMentionTrigger();
+    $mentionDebounce = $getMentionDebounce();
+    $mentionSearchStrategy = $getMentionSearchStrategy();
 @endphp
 
 <x-dynamic-component
@@ -50,6 +59,18 @@
                         nodePlaceholders: @js($nodePlaceholders),
                         showOnlyCurrentPlaceholder: @js($showOnlyCurrentPlaceholder),
                         debounce: @js($getLiveDebounce()),
+                        mentionItems: @js($mentionItems),
+                        emptyMentionItemsMessage: @js($emptyMentionItemsMessage),
+                        mentionItemsPlaceholder: @js($mentionItemsPlaceholder),
+                        maxMentionItems: @js($maxMentionItems),
+                        mentionTrigger: @js($mentionTrigger),
+                        livewireId: @js($this->getId()),
+                        getMentionItemsUsingEnabled: @js($getMentionItemsUsingEnabled),
+                        getSearchResultsUsing: async (search) => {
+                          return await $wire.getMentionsItems(@js($statePath), search)
+                        },
+                        mentionDebounce: @js($mentionDebounce),
+                        mentionSearchStrategy: @js($mentionSearchStrategy),
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"

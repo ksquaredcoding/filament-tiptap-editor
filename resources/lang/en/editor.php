@@ -122,4 +122,8 @@ return [
         'vimeo' => 'Insert Vimeo Video',
         'oembed' => 'Insert Video',
     ],
+    'mentions' => [
+        'no_suggestions_found' => 'No results',
+        'suggestions_placeholder' => 'Start typing...',
+    ],
 ];
