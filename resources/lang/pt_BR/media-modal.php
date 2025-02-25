@@ -15,8 +15,8 @@ return [
         'alt' => 'Texto Alternativo',
         'alt_helper_text' => 'Saiba como descrever o propósito da imagem.',
         'title' => 'Título',
-        'width'=>'Largura',
-        'height'=>'Altura',
-        'lazy'=>'Lento'
+        'width' => 'Largura',
+        'height' => 'Altura',
+        'lazy' => 'Lento',
     ],
 ];
