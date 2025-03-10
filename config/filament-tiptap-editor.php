@@ -113,4 +113,15 @@ return [
     |
     */
     'preset_colors' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Protocols
+    |--------------------------------------------------------------------------
+    |
+    | With newer versions of Tiptap, you need to define additional protocols
+    | for the link extension. i.e. 'ftp', 'mailto', etc.
+    |
+    */
+    'link_protocols' => [],
 ];
