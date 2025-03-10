@@ -88,7 +88,9 @@ class TiptapConverter
             new Underline,
             new Superscript,
             new Subscript,
-            new Marks\Link,
+            new Marks\Link([
+                'protocols' => config('filament-tiptap-editor.link_protocols', []),
+            ]),
             new Marks\Small,
             ...$customExtensions,
         ];

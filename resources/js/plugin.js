@@ -175,6 +175,7 @@ export default function tiptap({
    getSearchResultsUsing,
    mentionDebounce,
    mentionSearchStrategy,
+    linkProtocols = [],
 }) {
     let editor = null;
 
@@ -321,6 +322,14 @@ export default function tiptap({
                             if (['ordered-list', 'bullet-list', 'checked-list'].includes(tool)) {
                                 extensions.push(e)
                                 if (!extensions.includes(ListItem)) extensions.push(ListItem);
+                            } else if (tool === 'link') {
+                                if (linkProtocols?.length) {
+                                    extensions.push(e.configure({
+                                        protocols: linkProtocols,
+                                    }))
+                                } else {
+                                    extensions.push(e)
+                                }
                             } else {
                                 extensions.push(e)
                             }

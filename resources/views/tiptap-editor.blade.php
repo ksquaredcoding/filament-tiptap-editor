@@ -71,6 +71,7 @@
                         },
                         mentionDebounce: @js($mentionDebounce),
                         mentionSearchStrategy: @js($mentionSearchStrategy),
+                        linkProtocols: @js(config('filament-tiptap-editor.link_protocols')),
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"
