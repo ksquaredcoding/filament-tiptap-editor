@@ -121,4 +121,8 @@ return [
         'vimeo' => '插入 Vimeo 视频',
         'oembed' => '插入视频',
     ],
+    'mentions' => [
+        'no_suggestions_found' => '没有找到结果',
+        'suggestions_placeholder' => '开始输入...',
+    ],
 ];

@@ -10,6 +10,8 @@ return [
         'insert' => '插入',
     ],
     'labels' => [
+        'width' => '宽度',
+        'height' => '高度',
         'file' => '文件',
         'link_text' => '文本链接',
         'alt' => '替代文本',
