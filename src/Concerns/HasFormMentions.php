@@ -2,6 +2,7 @@
 
 namespace FilamentTiptapEditor\Concerns;
 
+use Filament\Forms\Components\Component;
 use FilamentTiptapEditor\TiptapEditor;
 use Livewire\Attributes\Renderless;
 
@@ -11,7 +12,7 @@ trait HasFormMentions
     public function getMentionsItems(string $statePath, string $search): array
     {
         foreach ($this->getCachedForms() as $form) {
-            if ($results = $this->getFilamentTipTapMentionResults($form, $statePath, $search)) {
+            if ($results = $this->searchFormComponents($form->getComponents(), $statePath, $search)) {
                 return $results;
             }
         }
@@ -19,24 +20,27 @@ trait HasFormMentions
         return [];
     }
 
-    public function getFilamentTipTapMentionResults($form, string $statePath, string $search): array
+    protected function searchFormComponents(array $components, string $statePath, string $search): ?array
     {
-        foreach ($form->getComponents() as $component) {
+        foreach ($components as $component) {
             if ($component instanceof TiptapEditor && $component->getStatePath() === $statePath) {
                 return $component->getSearchResults($search);
             }
 
+            // Search within child containers if available
             foreach ($component->getChildComponentContainers() as $container) {
                 if ($container->isHidden()) {
                     continue;
                 }
 
-                if ($results = $container->getSelectSearchResults($statePath, $search)) {
-                    return $results;
+                if ($childComponents = $container->getComponents()) {
+                    if ($results = $this->searchFormComponents($childComponents, $statePath, $search)) {
+                        return $results;
+                    }
                 }
             }
         }
 
-        return [];
+        return null;
     }
 }
