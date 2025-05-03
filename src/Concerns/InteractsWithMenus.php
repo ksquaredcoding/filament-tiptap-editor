@@ -65,7 +65,7 @@ trait InteractsWithMenus
         return $this;
     }
 
-    public function getTippyPlacement():string|TippyPlacement
+    public function getTippyPlacement(): string | TippyPlacement
     {
         return $this->evaluate($this->tippyPlacement);
     }
