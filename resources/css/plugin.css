@@ -702,3 +702,15 @@ span[data-type="mergeTag"] {
 .tiptap-editor .mention  {
     @apply bg-primary-600 bg-opacity-10 text-primary-600 px-1 py-0.5 rounded-md box-decoration-clone;
 }
+
+.mention-dropdown .loader {
+    @apply animate-spin size-4 text-white;
+
+    .circle {
+        @apply opacity-25;
+    }
+
+    .path {
+        @apply opacity-75;
+    }
+}
