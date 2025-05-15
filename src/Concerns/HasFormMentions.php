@@ -2,7 +2,6 @@
 
 namespace FilamentTiptapEditor\Concerns;
 
-use Filament\Forms\Components\Component;
 use FilamentTiptapEditor\TiptapEditor;
 use Livewire\Attributes\Renderless;
 
