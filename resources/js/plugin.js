@@ -86,6 +86,7 @@ let coreExtensions = {
     italic: [Italic],
     lead: [Lead],
     link: [CustomLink.configure({
+        isAllowedUri: (url, ctx) => ctx.defaultValidate(url) && !url.startsWith('./'),
         openOnClick: false,
         autolink: false,
         HTMLAttributes: {
