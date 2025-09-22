@@ -114,6 +114,7 @@ class Video extends Node
                     'width' => $node->attrs->width,
                     'height' => $node->attrs->height,
                     'autoplay' => $node->attrs->autoplay ? 'true' : null,
+                    'mute' => $node->attrs->autoplay ? 'true' : null,
                     'loop' => $node->attrs->loop ? 'true' : null,
                     'controls' => $node->attrs->controls ? 'true' : null,
                     'style' => $node->attrs->style ?? null,
