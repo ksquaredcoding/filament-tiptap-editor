@@ -4,7 +4,7 @@ namespace FilamentTiptapEditor\Concerns;
 
 use Closure;
 
-class ListensToEvents
+trait ListensToEvents
 {
     /**
      * @var array<string, array<Closure>>
