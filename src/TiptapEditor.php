@@ -3,7 +3,7 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
@@ -14,6 +14,7 @@ use FilamentTiptapEditor\Concerns\HasCustomActions;
 use FilamentTiptapEditor\Concerns\HasMentions;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Concerns\InteractsWithMenus;
+use FilamentTiptapEditor\Concerns\ListensToEvents;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use JsonException;
@@ -30,6 +31,7 @@ class TiptapEditor extends Field
     use HasPlaceholder;
     use InteractsWithMedia;
     use InteractsWithMenus;
+    use ListensToEvents;
 
     protected array $extensions = [];
 

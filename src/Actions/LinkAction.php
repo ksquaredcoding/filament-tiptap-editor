@@ -3,7 +3,7 @@
 namespace FilamentTiptapEditor\Actions;
 
 use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;

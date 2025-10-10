@@ -4,7 +4,7 @@ namespace FilamentTiptapEditor\Actions;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Group;
